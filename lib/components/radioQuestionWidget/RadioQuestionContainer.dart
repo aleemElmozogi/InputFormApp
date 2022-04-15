@@ -1,25 +1,26 @@
-import 'package:flutter/cupertino.dart';
-import 'package:form/brain/question.dart';
+import 'package:flutter/material.dart';
 import 'package:form/brain/questionData.dart';
 
-import 'checkBoxTile.dart';
-
-class CheckBoxQuestionContainer extends StatelessWidget {
-  const CheckBoxQuestionContainer({
+class RadioQuestionContainer extends StatefulWidget {
+  const RadioQuestionContainer({
     Key? key,
-    required this.question,
+    // required this.question,
     required this.questionBrain,
     required this.questionText,
     required this.answerOptions,
   }) : super(key: key);
 
-  final Question question;
+  // final Question question;
   final String questionText;
   final List answerOptions;
-  // final bool isChecked;
-  // final Function checkBoxCallBack;
   final QuestionData questionBrain;
 
+  @override
+  State<RadioQuestionContainer> createState() => _RadioQuestionContainerState();
+}
+
+class _RadioQuestionContainerState extends State<RadioQuestionContainer> {
+  int _value = 0;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,7 +44,7 @@ class CheckBoxQuestionContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  questionText,
+                  widget.questionText,
                   style: const TextStyle(
                     fontFamily: 'Microsoft JhengHei UI',
                     fontSize: 20,
@@ -58,24 +59,25 @@ class CheckBoxQuestionContainer extends StatelessWidget {
                   physics:
                       const NeverScrollableScrollPhysics(), // <-- this will disable scroll
                   shrinkWrap: true,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   itemBuilder: (context, index) {
-                    final checkBoxQuestionTitle =
-                        question.answerOptions[index]['answerOptionsText'];
-                    final isChecked = question.answerOptions[index]['answer'];
-                    if (answerOptions == '') {
-                      return const Text('....Loading');
-                    } else {
-                      return CheckBoxTile(
-                          questionTitle: checkBoxQuestionTitle,
-                          isChecked: isChecked,
-                          checkBoxCallBack: (checkBoxNewState) {
-                            questionBrain.checkBoxAnswerSetter(
-                                isChecked, checkBoxQuestionTitle);
-                          });
-                    }
+                    final checkBoxQuestionTitle = widget.answerOptions[index];
+
+                    return ListTile(
+                      leading: Radio(
+                          value: index,
+                          groupValue: _value,
+                          onChanged: (value) {
+                            setState(() {
+                              _value = value as int;
+                            });
+                            widget.questionBrain.answerSetter(
+                                question: widget.questionText,
+                                answer: widget.answerOptions[_value]);
+                          }),
+                      title: Text(checkBoxQuestionTitle),
+                    );
                   },
-                  itemCount: question.answerOptions.length,
+                  itemCount: widget.answerOptions.length,
                 ),
               ],
             ),

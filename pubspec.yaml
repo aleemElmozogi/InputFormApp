@@ -2,7 +2,7 @@ name: form
 description: A new Flutter project.
 
 
-publish_to:
+#publish_to:
 
 
 version: 1.0.0+1
@@ -19,11 +19,12 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   provider: ^6.0.1
-  firebase_core: ^1.10.5
+  firebase_core: ^1.10.1
   firebase_auth: ^3.3.3
   cloud_firestore: ^3.1.4
   shared_preferences: ^2.0.11
   google_sign_in: ^5.2.1
+  rflutter_alert: ^2.0.4
 
 dev_dependencies:
   flutter_test:

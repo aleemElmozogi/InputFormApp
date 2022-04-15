@@ -7,12 +7,11 @@ import 'question.dart';
 class QuestionData extends ChangeNotifier {
   late String _formTitle = '';
   late String _formDefinition = '';
+  late bool isSubmitted = false;
 
-  late final List<Map> _answersList = [{}];
-  late final List<Question> _questionsBank = <Question>[];
+  late List<Question> _questionsBank = <Question>[];
 
   String get formTitleGetter {
-    // assignQuestions();
     assignFormTitle();
     return _formTitle;
   }
@@ -23,11 +22,11 @@ class QuestionData extends ChangeNotifier {
   }
 
   List<Question> get questionsGetter {
-    // assignQuestions();
     return _questionsBank;
   }
 
   int get questionCount => _questionsBank.length;
+  bool get isSubmittedGetter => isSubmitted;
 
   Future<void> assignFormTitle() async {
     DocumentSnapshot variable = await FirebaseFirestore.instance
@@ -46,7 +45,7 @@ class QuestionData extends ChangeNotifier {
   }
 
   Future<void> assignQuestions() async {
-    _questionsBank.clear();
+    print(_questionsBank.length);
     final Stream<QuerySnapshot> questions =
         FirebaseFirestore.instance.collection('Questions').snapshots();
     await questions.forEach((element) {
@@ -59,14 +58,8 @@ class QuestionData extends ChangeNotifier {
 
         if (q['questionType'] == 'checkbox') {
           for (var a in q['answerOptions']) {
-            _question.answerOptions.add({
-              'answerOptionsText': a['answerOptionsText'],
-              'answer': a['answer']
-            });
+            _question.answerOptions.add(a['answerOptionsText']);
           }
-        }
-        if (kDebugMode) {
-          print(_question.questionType);
         }
         _questionsBank.add(Question(
             questionType: _question.questionType,
@@ -79,33 +72,21 @@ class QuestionData extends ChangeNotifier {
   }
 
   void answerSetter({question, answer}) {
-    _answersList.add({question: answer});
-    // // int questionIndex = 0;
-    // for (var q in _questionsBank) {
-    //   if (q.questionType == 'input') {
-    //     if (q.questionText == question) {
-    //       q.answer = answer;
-    //     }
-    //   }
-    // }
-  }
-
-  void checkBoxAnswerSetter(bool value, String questionText) {
-    for (var question in _questionsBank) {
-      for (var answer in question.answerOptions) {
-        if (answer['answerOptionsText'] == questionText) {
-          question.answer = answer['answerOptionsText'];
-          for (var answer in question.answerOptions) {
-            answer['answer'] = false;
-          }
-          answer['answer'] = !value;
-        }
+    for (var q in _questionsBank) {
+      if (q.questionText == question) {
+        q.answer = answer;
       }
     }
-    notifyListeners();
   }
 
   void submit() async {
+    // final CollectionReference answers =
+    //     FirebaseFirestore.instance.collection('Answers');
+    // for (var item in _answers) {
+    //   await answers.add(
+    //     {"questionText": item["questionText"], "answer": item["answer"]},
+    //   );
+    // }
     final CollectionReference answers =
         FirebaseFirestore.instance.collection('Answers');
     await answers.add({for (var q in _questionsBank) q.questionText: q.answer});

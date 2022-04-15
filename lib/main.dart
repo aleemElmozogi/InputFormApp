@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-import 'screens/homeScreen/management.dart';
+import 'package:form/screens/homeScreen/homeScreen.dart';
 
 void main() {
+  debugRepaintRainbowEnabled = false;
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp(
     options: const FirebaseOptions(
@@ -33,6 +34,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      initialRoute: 'HomeScreen',
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        'HomeScreen': (context) => const HomeScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        // '/second': (context) => const SecondScreen(),
+      },
       localizationsDelegates: const [
         // to make the app RIGHT to LEFT
         GlobalCupertinoLocalizations.delegate,
@@ -46,7 +54,6 @@ class MyApp extends StatelessWidget {
           "fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales,
 
       theme: ThemeData(),
-      home: const FormComponents(title: 'title'),
     );
   }
 }
