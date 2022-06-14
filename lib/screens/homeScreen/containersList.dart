@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:form/brain/questionData.dart';
 import 'package:form/components/introductoryWidget/introductoryContainer.dart';
 import 'package:form/components/radioQuestionWidget/RadioQuestionContainer.dart';
@@ -22,7 +23,9 @@ class ContainersList extends StatelessWidget {
           ),
           Consumer<QuestionData>(
               builder: (context, questionData, Widget? child) {
-            print('Consumer');
+            if (kDebugMode) {
+              print('Consumer');
+            }
             if (questionData.questionCount == 0) {
               questionBrain.assignQuestions();
               return const Text('جاري التحميل .......');

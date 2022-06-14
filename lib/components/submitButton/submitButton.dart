@@ -21,12 +21,12 @@ class SubmitButton extends StatelessWidget {
         await Alert(
           context: context,
           type: AlertType.success,
-          title: "RFLUTTER ALERT",
-          desc: "Flutter is more awesome with RFlutter Alert.",
+          title: "تم الإرسال",
+          desc: "تم إرسال البيانات المدخلة إلى قاعدة البيانات\n شكرا على وقتك",
           buttons: [
             DialogButton(
               child: const Text(
-                "COOL",
+                "حسنا",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () => {

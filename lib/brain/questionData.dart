@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 import 'question.dart';
@@ -9,7 +8,7 @@ class QuestionData extends ChangeNotifier {
   late String _formDefinition = '';
   late bool isSubmitted = false;
 
-  late List<Question> _questionsBank = <Question>[];
+  late final List<Question> _questionsBank = <Question>[];
 
   String get formTitleGetter {
     assignFormTitle();
@@ -45,7 +44,9 @@ class QuestionData extends ChangeNotifier {
   }
 
   Future<void> assignQuestions() async {
-    print(_questionsBank.length);
+    if (kDebugMode) {
+      print(_questionsBank.length);
+    }
     final Stream<QuerySnapshot> questions =
         FirebaseFirestore.instance.collection('Questions').snapshots();
     await questions.forEach((element) {

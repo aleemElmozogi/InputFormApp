@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form/screens/homeScreen/homeScreen.dart';
+import 'package:form/screens/loginScreen/loginScreen.dart';
 
 void main() {
   debugRepaintRainbowEnabled = false;
@@ -34,12 +35,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: 'HomeScreen',
+      initialRoute: 'LoginScreen',
       routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
         'HomeScreen': (context) => const HomeScreen(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        // '/second': (context) => const SecondScreen(),
+        'LoginScreen': (context) => LoginScreen(),
       },
       localizationsDelegates: const [
         // to make the app RIGHT to LEFT
